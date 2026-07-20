@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Gestión de Tarea | Crear / Editar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(145deg, #e9f0f5 0%, #d9e2ec 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Tarjeta principal */
+        .form-card {
+            max-width: 780px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .form-card:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Encabezado */
+        .card-header {
+            background: #1e2f4e;
+            padding: 1.5rem 2rem;
+            color: white;
+        }
+
+        .card-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .card-header h1::before {
+            content: "📋";
+            font-size: 1.8rem;
+        }
+
+        .card-header p {
+            margin-top: 0.5rem;
+            opacity: 0.85;
+            font-size: 0.9rem;
+        }
+
+        /* Cuerpo del formulario */
+        .card-body {
+            padding: 2rem 2rem 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 0.45rem;
+            color: #1e2f4e;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        label i {
+            font-style: normal;
+            font-weight: normal;
+        }
+
+        input, select, textarea {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-family: inherit;
+            background-color: #fefefe;
+            transition: all 0.2s;
+            outline: none;
+            width: 100%;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+            background-color: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Checkbox personalizado */
+        .checkbox-group {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.8rem;
+            background: #f8fafc;
+            padding: 0.6rem 1rem;
+            border-radius: 1.5rem;
+            border: 1px solid #e2edf7;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            text-transform: none;
+            letter-spacing: normal;
+            font-weight: 500;
+        }
+
+        .checkbox-group input {
+            width: 1.3rem;
+            height: 1.3rem;
+            margin: 0;
+            accent-color: #1e2f4e;
+        }
+
+        /* Botones */
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #eef2f8;
+        }
+
+        .btn {
+            padding: 0.7rem 1.6rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: transparent;
+        }
+
+        .btn-primary {
+            background: #1e2f4e;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            background: #0f1e32;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn-secondary {
+            background: #eef2ff;
+            color: #1e2f4e;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+
+        .alert-info {
+            background: #e6f0ff;
+            border-left: 5px solid #3b82f6;
+            padding: 0.9rem 1.2rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: #1e3a8a;
+        }
+
+        .text-muted {
+            font-size: 0.7rem;
+            color: #5b6e8c;
+            margin-top: 0.25rem;
+        }
+
+        footer {
+            background: #f8fafc;
+            padding: 0.8rem 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #5b6e8c;
+            border-top: 1px solid #eef2f8;
+        }
+
+        @media (max-width: 640px) {
+            .card-body {
+                padding: 1.5rem;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+            .btn {
+                justify-content: center;
+            }
+        }
+        .required:after {
+            content: " *";
+            color: #dc2626;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <div class="card-header">
+        <h1 th:text="${tarea.id != null} ? 'Editar tarea' : '➕ Nueva tarea'">Formulario de tarea</h1>
+        <p>Completa los campos. Los campos con <span style="color:#ffb3b3;">*</span> son obligatorios.</p>
+    </div>
+
+    <div class="card-body">
+        <form th:action="@{/tareas/guardar}" th:object="${tarea}" method="post" id="tareaForm">
+            <!-- Campo oculto para el ID (si existe, será actualización; si es null, será creación) -->
+            <input type="hidden" th:field="*{id}" />
+
+            <!-- Token CSRF (importante si usas Spring Security) -->
+           
+
+            <div class="form-group">
+                <label class="required">Título de la tarea</label>
+                <input type="text" th:field="*{titulo}" placeholder="Ej: Revisar documentación del proyecto" required maxlength="120" />
+                <div class="text-muted" >Máximo 120 caracteres</div>
+				<div th:if"${#fields.hasErrors('titulo')}" th:errors="*{titulo}"> </div>
+            </div>
+
+            <div class="form-group">
+                <label>Descripción detallada</label>
+                <textarea th:field="*{descripcion}" placeholder="Describe los pasos, detalles o notas importantes..."></textarea>
+				<div th:if="${#fields.hasErrors('descripcion')}"
+				     th:errors="*{descripcion}"
+				     style="color:red;">
+				</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Fecha límite</label>
+                    <input type="date" th:field="*{fechaLimite}" />
+                </div>
+                <div class="form-group">
+                    <label>⚡ Prioridad</label>
+                    <select th:field="*{prioridad}">
+                        <option value="BAJA">Baja</option>
+                        <option value="MEDIA">Media</option>
+                        <option value="ALTA">Alta</option>
+                        <option value="URGENTE">Urgente</option>
+                    </select>
+                </div>
+				<div th:if="${#fields.hasErrors('prioridad')}"
+				     th:errors="*{prioridad}"
+				     style="color:red;">
+				</div>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" th:field="*{completada}" id="completadaCheck" />
+                <label for="completadaCheck">✅ Marcar como completada</label>
+            </div>
+
+            <!-- Información de estado adicional (opcional, solo lectura si viene del backend) -->
+            <div class="alert-info" th:if="${tarea.id != null}">
+                <span>🆔 ID de tarea: <strong th:text="${tarea.id}"></strong></span>
+                <span style="margin-left: 1rem;">🕒 Creada: <span th:text="${tarea.fechaCreacion} ? ${#temporals.format(tarea.fechaCreacion, 'dd/MM/yyyy HH:mm')} : '—'">—</span></span>
+            </div>
+            <div class="alert-info" th:unless="${tarea.id != null}">
+                💡 Nueva tarea: se guardará en la lista activa.
+            </div>
+
+            <div class="button-group">
+                <a th:href="@{/nuevo}" class="btn btn-secondary">
+                    ← Cancelar y volver al listado
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    💾 Guardar tarea
+                </button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        ⚙️ Sistema de gestión de tareas | Los cambios se reflejarán inmediatamente
+    </footer>
+</div>

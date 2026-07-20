@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tareas</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 2rem;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-right: 5px;
+        }
+
+        .btn-new {
+            background: #22c55e;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-complete {
+            background: #eab308;
+            color: black;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #334155;
+            text-align: left;
+        }
+
+        tr:hover {
+            background: #1e293b;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📋 Lista de Tareas</h1>
+
+<!-- Botón nueva tarea -->
+<a th:href="@{/tareas/nuevo}" class="btn btn-new">➕ Nueva tarea</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="t : ${tareas}">
+            <td th:text="${t.id}"></td>
+
+            <td th:text="${t.titulo}"
+                th:classappend="${t.completada} ? 'completed' : ''">
+            </td>
+
+            <td th:text="${t.descripcion}"></td>
+
+            <td>
+                <span th:text="${t.completada} ? '✅ Completada' : '⏳ Pendiente'"></span>
+            </td>
+
+            <td>
+                <!-- Editar -->
+                <a th:href="@{/tareas/editar/{id}(id=${t.id})}" 
+                   class="btn btn-edit">✏️</a>
+
+                <!-- Eliminar -->
+                <a th:href="@{/tareas/eliminar/{id}(id=${t.id})}" 
+                   class="btn btn-delete"
+                   onclick="return confirm('¿Eliminar tarea?')">🗑️</a>
+
+                <!-- Completar -->
+                <a th:href="@{/tareas/completar/{id}(id=${t.id})}" 
+                   class="btn btn-complete">✔</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
