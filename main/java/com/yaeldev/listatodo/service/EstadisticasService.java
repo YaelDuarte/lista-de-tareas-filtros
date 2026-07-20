@@ -1,9 +1,11 @@
 package com.yaeldev.listatodo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.yaeldev.listatodo.repository.TareasRepositorio;
 
+@Service
 public class EstadisticasService {
 
 	@Autowired
