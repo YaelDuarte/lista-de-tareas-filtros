@@ -29,6 +29,10 @@ public class Tarea {
 
     @NotBlank(message = "La prioridad es obligatoria")
     private String prioridad;
+    
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
     // GETTERS Y SETTERS
 
@@ -79,4 +83,14 @@ public class Tarea {
     public void setPrioridad(String prioridad) {
         this.prioridad = prioridad;
     }
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+    
+    
 }
