@@ -41,12 +41,14 @@ public class CategoriaController {
 	@GetMapping("/editar/{id}")
 	public String editarCategoria(@PathVariable Long id, Model model) throws CategoryNotFound {
 		Categoria categoria = catServ.buscarCategoriaPorId(id);
+		model.addAttribute("categoria",categoria);
+		
 		return "categorias/formulario";
 	}
 	
 	@GetMapping("eliminar/{id}")
 	public String eliminarCategoria(@PathVariable Long id, Model model){
 		catServ.eliminarCategoriaPorId(id);
-		return "redirect:/formulario";
+		return "redirect:/categorias";
 	}
 }
