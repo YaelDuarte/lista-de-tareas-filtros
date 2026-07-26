@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 
 import com.yaeldev.listatodo.excepcionesp.UserNotFoundExc;
 import com.yaeldev.listatodo.models.Tarea;
+import com.yaeldev.listatodo.service.CategoriaService;
 import com.yaeldev.listatodo.service.TareasService;
 
 @Controller
@@ -23,6 +24,9 @@ public class TareasController {
 	
 	@Autowired
 	private TareasService tarServ;
+	
+	@Autowired
+	private CategoriaService catServ;
 	
 	@GetMapping
 	public String listarTareas(Model model) {
@@ -33,6 +37,7 @@ public class TareasController {
 	@GetMapping("/nuevo")
 	public String nuevaTarea(Model model) {
 		model.addAttribute("tarea",new Tarea());
+		model.addAttribute("categoria",catServ.listarCategorias());
 		return "tareas/formulario.html";
 	}
 	
