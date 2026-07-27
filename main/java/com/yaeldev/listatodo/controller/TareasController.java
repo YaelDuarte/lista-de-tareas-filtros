@@ -37,8 +37,8 @@ public class TareasController {
 	@GetMapping("/nuevo")
 	public String nuevaTarea(Model model) {
 		model.addAttribute("tarea",new Tarea());
-		model.addAttribute("categoria",catServ.listarCategorias());
-		return "tareas/formulario.html";
+		model.addAttribute("categorias",catServ.listarCategorias());
+		return "tareas/formulario";
 	}
 	
 	@PostMapping("/guardar")

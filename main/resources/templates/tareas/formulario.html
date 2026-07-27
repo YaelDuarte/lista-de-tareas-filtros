@@ -303,6 +303,19 @@
 				     th:errors="*{prioridad}"
 				     style="color:red;">
 				</div>
+				
+				<!-- AGREGAMOS SELECT PARA LAS CATEGORIAS -->
+				<div class="form-group">
+				             <label>Categorias</label>
+							 
+					<select id="categorias" th:fiel="*{categoria}">
+					<option value="">Selecciona una categoría</option>
+				                <option th:each="cat : ${categorias}"
+									th:value="${cat.id}"
+									th:text="${cat.nombre}">
+										</option>
+				     </select>
+				</div>
             </div>
 
             <div class="form-group checkbox-group">
@@ -327,6 +340,8 @@
                     💾 Guardar tarea
                 </button>
             </div>
+
+			</form>
         </form>
     </div>
     <footer>
