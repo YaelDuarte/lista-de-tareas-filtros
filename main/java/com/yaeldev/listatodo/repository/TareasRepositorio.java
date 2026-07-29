@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.yaeldev.listatodo.models.Categoria;
 import com.yaeldev.listatodo.models.Tarea;
 import java.util.Date;
 
@@ -16,4 +17,5 @@ public interface TareasRepositorio extends JpaRepository<Tarea,Long>{
 	List<Tarea> findByFechaLimiteBefore(Date fechaLimite);
 	List<Tarea> findByCompletada(boolean completada);
 	List<Tarea> findByPrioridad(String prioridad);
+	List<Tarea> findByCategoria(Categoria categoria);
 }

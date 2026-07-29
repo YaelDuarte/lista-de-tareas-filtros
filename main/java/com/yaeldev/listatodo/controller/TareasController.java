@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
 import com.yaeldev.listatodo.excepcionesp.UserNotFoundExc;
+import com.yaeldev.listatodo.models.Categoria;
 import com.yaeldev.listatodo.models.Tarea;
 import com.yaeldev.listatodo.service.CategoriaService;
 import com.yaeldev.listatodo.service.TareasService;
@@ -75,4 +76,9 @@ public class TareasController {
 		return tarServ.filtrarTareas(palabra);
 	}
 	
-}
+	@GetMapping("/filtrarCategoria/{categoria}")
+		public List<Tarea> filtrarPorCategoria(@PathVariable Categoria categoria){
+			return tarServ.filtrarPorCategoria(categoria);
+		}
+	
+	}

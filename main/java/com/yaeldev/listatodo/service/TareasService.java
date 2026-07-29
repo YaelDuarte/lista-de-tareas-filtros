@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yaeldev.listatodo.excepcionesp.UserNotFoundExc;
+import com.yaeldev.listatodo.models.Categoria;
 import com.yaeldev.listatodo.models.Tarea;
 import com.yaeldev.listatodo.repository.TareasRepositorio;
 
@@ -84,4 +85,11 @@ public class TareasService {
 	public long contarTareasPendientes() {
 		return tareasRepo.findByCompletada(false).size();
 	}
+	
+	
+	// HACEMOS FILTRADO POR TAREAS Y SU CATEGORIA
+	public List<Tarea> filtrarPorCategoria(Categoria categoria){
+		return tareasRepo.findByCategoria(categoria);
+	}
+	
 }
