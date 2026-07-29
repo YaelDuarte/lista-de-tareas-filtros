@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Categoría</title>
+</head>
+
+<body>
+
+    <h1>Crear categoría</h1>
+
+    <form th:action="@{/categorias/categoriaSave}"
+          th:object="${categoria}"
+          method="post">
+
+        <div>
+            <label for="nombre">Nombre de la categoría:</label>
+
+            <input type="text"
+                   id="nombre"
+                   th:field="*{nombre}"
+                   placeholder="Ej. Trabajo"
+                   required>
+        </div>
+
+        <br>
+
+        <button type="submit">
+            Guardar categoría
+        </button>
+
+        <a th:href="@{/categorias}">
+            Cancelar
+        </a>
+
+    </form>
+
+</body>
+
+</html>
