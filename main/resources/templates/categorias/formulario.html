@@ -1,40 +1,85 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
     <meta charset="UTF-8">
-    <title>Nueva Categoría</title>
+
+    <title>Categoría</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/categorias.css}">
+
 </head>
 
 <body>
 
-    <h1>Crear categoría</h1>
+<div class="container">
 
-    <form th:action="@{/categorias/categoriaSave}"
-          th:object="${categoria}"
-          method="post">
+    <div class="form-card">
 
-        <div>
-            <label for="nombre">Nombre de la categoría:</label>
+        <!-- CAMBIAMOS EL TEXTO DEPENDIENDO DE SI EXISTE ID -->
 
-            <input type="text"
-                   id="nombre"
-                   th:field="*{nombre}"
-                   placeholder="Ej. Trabajo"
-                   required>
-        </div>
+        <h1 th:if="${categoria.id == null}">
+            ➕ Nueva categoría
+        </h1>
 
-        <br>
+        <h1 th:unless="${categoria.id == null}">
+            ✏️ Editar categoría
+        </h1>
 
-        <button type="submit">
-            Guardar categoría
-        </button>
 
-        <a th:href="@{/categorias}">
-            Cancelar
-        </a>
+        <p>
+            Crea una categoría para organizar mejor tus tareas.
+        </p>
 
-    </form>
+
+        <!-- FORMULARIO -->
+
+        <form th:action="@{/categorias/categoriaSave}"
+              th:object="${categoria}"
+              method="post">
+
+
+            <!-- NOMBRE -->
+
+            <div class="form-group">
+
+                <label for="nombre">
+                    Nombre de la categoría
+                </label>
+
+                <input type="text"
+                       id="nombre"
+                       th:field="*{nombre}"
+                       placeholder="Ej. Trabajo"
+                       required>
+
+            </div>
+
+
+            <!-- BOTONES -->
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    💾 Guardar
+                </button>
+
+                <a th:href="@{/categorias}"
+                   class="btn btn-secondary">
+                    Cancelar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 
